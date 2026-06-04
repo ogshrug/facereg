@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <main class="container">
+            <div class="left-column">
+                <div class="webcam-container">
+                    <video id="webcam" autoplay playsinline muted></video>
+                    <canvas id="overlay"></canvas>
+                    <div id="permission-prompt" class="card hidden">
+                        <h2>Camera Access Required</h2>
+                        <p>Please grant camera access to start face detection.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="stats-panel">
+                    <div class="metrics-grid">
+                        <div class="metric-card face-count-card">
+                            <span class="label">Face Count</span>
+                            <span id="face-count" class="value mono">0</span>
+                        </div>
+
+                        <div class="metric-card avg-confidence-card">
+                            <span class="label">Avg Confidence</span>
+                            <span id="avg-confidence" class="value mono">0.00</span>
+                        </div>
+
+                        <div class="metric-card status-card">
+                            <span class="label">Detection Status</span>
+                            <div class="status-content">
+                                <span id="status-badge" class="badge">Live</span>
+                                <button id="toggle-btn">Pause</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-card frames-card">
+                            <span class="label">Frames Processed</span>
+                            <span id="frames-count" class="value mono">0</span>
+                        </div>
+                    </div>
+
+                    <div class="control-card card">
+                         <span class="label">Confidence Threshold</span>
+                         <div class="slider-container">
+                             <input type="range" id="threshold-slider" min="0.1" max="1.0" step="0.1" value="0.5">
+                             <span id="threshold-value" class="mono">0.5</span>
+                         </div>
+                    </div>
+
+                    <div class="log-container card">
+                        <h3 class="label">Detection Log</h3>
+                        <ul id="detection-log">
+                            <!-- Log entries will be added here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div id="toast" class="toast hidden">Backend unreachable — retrying...</div>
+    </div>
+
+    <!-- Hidden canvas for capturing frames -->
+    <canvas id="hidden-canvas" style="display: none;"></canvas>
+
+    <script src="app.js"></script>
+</body>
+</html>
