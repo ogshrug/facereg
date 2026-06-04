@@ -10,9 +10,34 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="main-header">
+        <div class="header-titles">
+            <h1>Face Recognition</h1>
+            <p>Real-time face detection powered by InsightFace</p>
+        </div>
+        <nav>
+            <a href="targets.html" class="nav-link">Target Management</a>
+        </nav>
+    </header>
+
     <div id="app">
         <main class="container">
             <div class="left-column">
+                <button id="log-toggle" class="log-toggle">
+                    <span id="toggle-icon">›</span>
+                    <span>Log</span>
+                </button>
+
+                <div id="log-drawer" class="log-drawer">
+                    <div class="log-header">
+                        <h3 class="label">Detection Log</h3>
+                        <button id="close-log" class="close-log">‹</button>
+                    </div>
+                    <ul id="detection-log">
+                        <!-- Log entries will be added here -->
+                    </ul>
+                </div>
+
                 <div class="webcam-container">
                     <video id="webcam" autoplay playsinline muted></video>
                     <canvas id="overlay"></canvas>
@@ -89,24 +114,6 @@
                         </table>
                     </div>
 
-                    <div class="log-container card">
-                        <h3 class="label">Detection Log</h3>
-                        <ul id="detection-log">
-                            <!-- Log entries will be added here -->
-                        </ul>
-                    </div>
-
-                    <div class="target-management-card card">
-                        <h3 class="label">Target Management</h3>
-                        <div id="drop-zone" class="drop-zone">
-                            <p>Drag & Drop image here or</p>
-                            <button id="upload-btn-trigger">Choose File</button>
-                            <input type="file" id="target-upload-input" accept="image/*" hidden>
-                        </div>
-                        <div id="target-gallery" class="target-gallery">
-                            <!-- Target thumbnails will be added here -->
-                        </div>
-                    </div>
                 </div>
             </div>
         </main>
@@ -117,6 +124,7 @@
     <!-- Hidden canvas for capturing frames -->
     <canvas id="hidden-canvas" style="display: none;"></canvas>
 
+    <script src="utils.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const permissionPrompt = document.getElementById('permission-prompt');
     const toast = document.getElementById('toast');
 
-    // Target Management Elements
-    const dropZone = document.getElementById('drop-zone');
-    const targetUploadInput = document.getElementById('target-upload-input');
-    const uploadBtnTrigger = document.getElementById('upload-btn-trigger');
-    const targetGallery = document.getElementById('target-gallery');
+    // Log Drawer Elements
+    const logToggle = document.getElementById('log-toggle');
+    const logDrawer = document.getElementById('log-drawer');
+    const closeLog = document.getElementById('close-log');
+    const toggleIcon = document.getElementById('toggle-icon');
 
     let isPaused = false;
     let isProcessing = false;
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const base64Image = hiddenCanvas.toDataURL('image/jpeg', 0.8).split(',')[1];
 
         try {
-            const response = await fetch(`http://localhost:8000/detect`, {
+            const response = await fetch(`${API_URL}/detect`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -214,113 +214,16 @@ document.addEventListener('DOMContentLoaded', () => {
         simThresholdValue.textContent = simThreshold.toFixed(2);
     });
 
-    // --- Target Management Logic ---
-
-    async function loadTargets() {
-        try {
-            const response = await fetch('http://localhost:8000/targets');
-            targets = await response.json();
-            renderTargetGallery();
-        } catch (err) {
-            console.error('Error loading targets:', err);
-        }
+    // Drawer logic
+    function toggleDrawer() {
+        const isOpen = logDrawer.classList.toggle('open');
+        logToggle.classList.toggle('open');
+        toggleIcon.textContent = isOpen ? '‹' : '›';
     }
 
-    function escapeHtml(unsafe) {
-        return unsafe
-             .replace(/&/g, "&amp;")
-             .replace(/</g, "&lt;")
-             .replace(/>/g, "&gt;")
-             .replace(/"/g, "&quot;")
-             .replace(/'/g, "&#039;");
-    }
-
-    function renderTargetGallery() {
-        targetGallery.innerHTML = targets.map(target => {
-            const safeName = escapeHtml(target.name);
-            return `
-                <div class="target-item" title="${safeName}">
-                    <img src="http://localhost:8000/targets/${target.id}/image" alt="${safeName}">
-                    <button class="delete-btn" data-id="${target.id}">&times;</button>
-                </div>
-            `;
-        }).join('');
-
-        // Add delete listeners
-        targetGallery.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                deleteTarget(e.target.dataset.id);
-            });
-        });
-    }
-
-    async function deleteTarget(id) {
-        if (!confirm('Delete this target?')) return;
-        try {
-            const response = await fetch(`http://localhost:8000/targets/${id}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) {
-                targets = targets.filter(t => t.id !== id);
-                renderTargetGallery();
-            }
-        } catch (err) {
-            console.error('Error deleting target:', err);
-        }
-    }
-
-    async function uploadTarget(file) {
-        const name = prompt('Enter a name for this person:', file.name.split('.')[0]) || 'Unknown';
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('name', name);
-
-        try {
-            const response = await fetch('http://localhost:8000/targets', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                alert(`Upload failed: ${errorData.detail || 'Unknown error'}`);
-                return;
-            }
-
-            loadTargets();
-        } catch (err) {
-            console.error('Error uploading target:', err);
-            alert('Upload failed. Check console for details.');
-        }
-    }
-
-    // Upload Event Listeners
-    uploadBtnTrigger.addEventListener('click', () => targetUploadInput.click());
-
-    targetUploadInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            uploadTarget(e.target.files[0]);
-        }
-    });
-
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('drag-over');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('drag-over');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('drag-over');
-        if (e.dataTransfer.files.length > 0) {
-            uploadTarget(e.dataTransfer.files[0]);
-        }
-    });
+    logToggle.addEventListener('click', toggleDrawer);
+    closeLog.addEventListener('click', toggleDrawer);
 
     // Start everything
-    loadTargets();
     initWebcam();
 });
