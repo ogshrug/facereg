@@ -1,0 +1,264 @@
+:root {
+    --bg-color: #0d0d0f;
+    --card-bg: #16161a;
+    --accent-color: #00ff88;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a5;
+    --amber: #ffbf00;
+    --red: #ff4d4d;
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Layout - Desktop */
+.left-column {
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+
+.right-column {
+    flex: 0 0 40%;
+    max-width: 40%;
+}
+
+/* Webcam Container */
+.webcam-container {
+    position: relative;
+    width: 100%;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#webcam {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    object-fit: cover;
+}
+
+/* Stats Panel */
+.stats-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.metrics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.metric-card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.value {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.mono {
+    font-family: var(--font-mono);
+}
+
+#face-count.amber {
+    color: var(--amber);
+}
+
+#face-count.red {
+    color: var(--red);
+}
+
+/* Status & Controls */
+.status-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge {
+    background-color: rgba(0, 255, 136, 0.1);
+    color: var(--accent-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge.paused {
+    background-color: rgba(160, 160, 165, 0.1);
+    color: var(--text-secondary);
+}
+
+#toggle-btn {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+#toggle-btn:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+input[type=range] {
+    flex-grow: 1;
+    accent-color: var(--accent-color);
+}
+
+/* Log */
+.log-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 300px;
+}
+
+#detection-log {
+    list-style: none;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+#detection-log li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+}
+
+#detection-log li span:first-child {
+    color: var(--text-secondary);
+}
+
+/* Permission Prompt */
+#permission-prompt {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    max-width: 80%;
+}
+
+#permission-prompt h2 {
+    margin-bottom: 10px;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--red);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    z-index: 100;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-column, .right-column {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .metric-card {
+        padding: 15px;
+    }
+
+    .value {
+        font-size: 1.5rem;
+    }
+}
