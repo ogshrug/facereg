@@ -131,11 +131,21 @@ body {
     color: var(--red);
 }
 
+#target-count {
+    color: var(--red);
+}
+
 /* Status & Controls */
 .status-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .badge {
@@ -167,6 +177,62 @@ body {
 #toggle-btn:hover {
     background: var(--accent-color);
     color: var(--bg-color);
+}
+
+/* Switch Toggle */
+.switch-container {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch-container input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #333;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-color);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--accent-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
 
 .slider-container {
@@ -205,6 +271,101 @@ input[type=range] {
 
 #detection-log li span:first-child {
     color: var(--text-secondary);
+}
+
+/* Target Matches Table */
+.target-matches-card {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#target-matches-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+#target-matches-table th {
+    text-align: left;
+    color: var(--text-secondary);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#target-matches-table td {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Target Management */
+.drop-zone {
+    border: 2px dashed #333;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 10px;
+    transition: border-color 0.3s;
+}
+
+.drop-zone.drag-over {
+    border-color: var(--accent-color);
+    background: rgba(0, 255, 136, 0.05);
+}
+
+.drop-zone p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+#upload-btn-trigger {
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.target-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.target-item {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.target-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.target-item .delete-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(255, 77, 77, 0.8);
+    color: white;
+    border: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Permission Prompt */

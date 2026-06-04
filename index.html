@@ -40,8 +40,19 @@
                             <span class="label">Detection Status</span>
                             <div class="status-content">
                                 <span id="status-badge" class="badge">Live</span>
-                                <button id="toggle-btn">Pause</button>
+                                <div class="btn-group">
+                                    <button id="toggle-btn">Pause</button>
+                                    <label class="switch-container" title="Show Bounding Boxes">
+                                        <input type="checkbox" id="show-boxes-toggle" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="metric-card target-count-card">
+                            <span class="label">Target Faces Found</span>
+                            <span id="target-count" class="value mono">0</span>
                         </div>
 
                         <div class="metric-card frames-card">
@@ -56,6 +67,26 @@
                              <input type="range" id="threshold-slider" min="0.1" max="1.0" step="0.1" value="0.5">
                              <span id="threshold-value" class="mono">0.5</span>
                          </div>
+                         <span class="label" style="margin-top: 15px; display: block;">Similarity Threshold</span>
+                         <div class="slider-container">
+                             <input type="range" id="sim-threshold-slider" min="0.1" max="1.0" step="0.05" value="0.6">
+                             <span id="sim-threshold-value" class="mono">0.60</span>
+                         </div>
+                    </div>
+
+                    <div class="target-matches-card card">
+                        <h3 class="label">Active Target Matches</h3>
+                        <table id="target-matches-table">
+                            <thead>
+                                <tr>
+                                    <th>ID/Name</th>
+                                    <th>Similarity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="target-matches-body">
+                                <!-- Target matches will be added here -->
+                            </tbody>
+                        </table>
                     </div>
 
                     <div class="log-container card">
@@ -63,6 +94,18 @@
                         <ul id="detection-log">
                             <!-- Log entries will be added here -->
                         </ul>
+                    </div>
+
+                    <div class="target-management-card card">
+                        <h3 class="label">Target Management</h3>
+                        <div id="drop-zone" class="drop-zone">
+                            <p>Drag & Drop image here or</p>
+                            <button id="upload-btn-trigger">Choose File</button>
+                            <input type="file" id="target-upload-input" accept="image/*" hidden>
+                        </div>
+                        <div id="target-gallery" class="target-gallery">
+                            <!-- Target thumbnails will be added here -->
+                        </div>
                     </div>
                 </div>
             </div>
