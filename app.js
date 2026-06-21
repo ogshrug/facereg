@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let framesProcessed = 0;
     let detectionInterval = null;
     let threshold = 0.5;
-    let simThreshold = 0.6;
+    let simThreshold = 0.42;
     const logEntries = [];
     let targets = [];
 
